@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <title>{{ isset($title) ? $title . ' - ' : null }}@lang('Laravel') - @lang('The PHP Framework For Web Artisans')</title>
