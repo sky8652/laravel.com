@@ -59,7 +59,7 @@ class DocsController extends Controller
             abort(404);
         }
 
-        $title = (new Crawler($content))->filterXPath('//h1');
+        $title = (new Crawler(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8')))->filterXPath('//h1');
 
         $section = '';
 
