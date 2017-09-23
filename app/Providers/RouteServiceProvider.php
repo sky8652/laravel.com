@@ -28,6 +28,12 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace,
         ], function ($router) {
             require base_path('routes/web.php');
+
+            foreach (config('locales') as $locale) {
+                Route::group(['prefix' => $locale], function () {
+                    require base_path('routes/web.php');
+                });
+            }
         });
     }
 }

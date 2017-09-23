@@ -45,3 +45,23 @@ function __($key, $replace = [], $locale = null)
 
     return $line ?: $key;
 }
+
+/**
+ * Get the path to the documentation file.
+ *
+ * @param  string  $version
+ * @param  string  $filename
+ * @return string
+ */
+function doc_path($version, $filename)
+{
+    if ($locale = request()->attributes->get('locale')) {
+        $path = resource_path("docs/$locale/$version/$filename");
+
+        if (file_exists($path)) {
+            return $path;
+        }
+    }
+
+    return resource_path("docs/$version/$filename");
+}
