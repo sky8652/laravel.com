@@ -68,6 +68,7 @@
 
     @include('partials.algolia_template')
 
+    <script>window.rootUrl = "{{ url('/') }}"</script>
     <script src="{{ elixir('assets/js/laravel.js') }}"></script>
     <script src="/assets/js/viewport-units-buggyfill.js"></script>
     <script>window.viewportUnitsBuggyfill.init();</script>
