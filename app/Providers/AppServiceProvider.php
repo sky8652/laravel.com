@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Events\LocaleUpdated;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,13 +18,6 @@ class AppServiceProvider extends ServiceProvider
     protected $defaultLocale;
 
     /**
-     * The current request instance.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
      * Create a new service provider instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
@@ -32,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         parent::__construct($app);
 
-        $this->defaultLocale = $app['config']->get('app.locale');
+        $this->defaultLocale = $app->getLocale();
     }
 
     /**
@@ -56,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->setupConfiguration();
 
+        $this->registerEventListeners();
+
         $this->app->rebinding('request', function ($app, $request) {
             $this->handleLocaleForRequest($request);
         });
@@ -76,6 +73,30 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register event listeners.
+     *
+     * @return void
+     */
+    protected function registerEventListeners()
+    {
+        $localeUpdated = class_exists(LocaleUpdated::class) ?
+            LocaleUpdated::class : 'locale.changed';
+
+        Event::listen($localeUpdated, function ($locale) {
+            if (is_object($locale)) {
+                $locale = $locale->locale;
+            }
+
+            $rootUrl = $this->app['request']->root();
+            if ($locale != $this->defaultLocale) {
+                $rootUrl .= '/'.$locale;
+            }
+
+            $this->app['url']->forceRootUrl($rootUrl);
+        });
+    }
+
+    /**
      * Remove locale prefix in URI, and set locale for application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -83,12 +104,6 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function handleLocaleForRequest($request)
     {
-        if ($this->request === $request) {
-            return;
-        }
-
-        $this->request = $request;
-
         $uri = $request->server->get('REQUEST_URI');
 
         if ($locale = $this->getLocaleFromUri($uri, $prefix)) {
@@ -97,11 +112,11 @@ class AppServiceProvider extends ServiceProvider
             $request->server->set('REQUEST_URI', $uri);
             $request->attributes->set('locale', $locale);
 
-            app()->setLocale($locale);
-            app('url')->forceRootUrl($request->root().$prefix);
+            $this->app->setLocale($locale);
         } else {
-            app()->setLocale($this->defaultLocale);
-            app('url')->forceRootUrl($request->root());
+            $this->app->setLocale(
+                $request->attributes->get('locale') ?: $this->defaultLocale
+            );
         }
     }
 
