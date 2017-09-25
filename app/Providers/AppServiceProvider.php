@@ -9,6 +9,33 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * The default locale of application.
+     *
+     * @var string
+     */
+    protected $defaultLocale;
+
+    /**
+     * The current request instance.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * Create a new service provider instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        $this->defaultLocale = $app['config']->get('app.locale');
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -29,11 +56,16 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->setupConfiguration();
 
-        if ($locale = $this->removeLocalePrefix()) {
-            $this->app['url']->forceRootUrl(request()->root().'/'.$locale);
-        }
+        $this->app->rebinding('request', function ($app, $request) {
+            $this->handleLocaleForRequest($request);
+        });
     }
 
+    /**
+     * Setup application configuration.
+     *
+     * @return void
+     */
     protected function setupConfiguration()
     {
         if (! $this->app->configurationIsCached()) {
@@ -44,25 +76,49 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Remove the locale prefix of the request URI.
-     * Return the locale prefix.
+     * Remove locale prefix in URI, and set locale for application.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function handleLocaleForRequest($request)
+    {
+        if ($this->request === $request) {
+            return;
+        }
+
+        $this->request = $request;
+
+        $uri = $request->server->get('REQUEST_URI');
+
+        if ($locale = $this->getLocaleFromUri($uri, $prefix)) {
+            $uri = '/'.ltrim(Str::replaceFirst($prefix, '', $uri), '/');
+
+            $request->server->set('REQUEST_URI', $uri);
+            $request->attributes->set('locale', $locale);
+
+            app()->setLocale($locale);
+            app('url')->forceRootUrl($request->root().$prefix);
+        } else {
+            app()->setLocale($this->defaultLocale);
+            app('url')->forceRootUrl($request->root());
+        }
+    }
+
+    /**
+     * Get the locale segment from request URI.
+     *
+     * @param  string  $uri
+     * @param  string|null &$prefix
      * @return string|null
      */
-    protected function removeLocalePrefix()
+    protected function getLocaleFromUri($uri, &$prefix = null)
     {
-        if (preg_match('#/([a-z-_]+)#i', $uri = $_SERVER['REQUEST_URI'] ?? null, $matches)) {
-            foreach (config('locales') as $locale) {
-                if ($matches[1] === $locale) {
-                    $uri = '/'.ltrim(Str::replaceFirst($matches[0], '', $uri), '/');
-                    $_SERVER['REQUEST_URI'] = $uri;
-                    request()->server->set('REQUEST_URI', $uri);
+        if ($locale = explode('/', $uri)[1] ?? null) {
+            if (in_array($locale, config('locales'), true)) {
+                $prefix = '/'.$locale;
 
-                    config(['app.locale' => $locale]);
-                    request()->attributes->set('locale', $locale);
-
-                    return $locale;
-                }
+                return $locale;
             }
         }
     }
