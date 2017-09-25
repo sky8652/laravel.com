@@ -28,3 +28,13 @@
 		<li><a href="https://twitter.com/laravelphp">Twitter</a></li>
 	</ul>
 </li>
+
+<li class="dropdown language-dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+		<img src="/assets/flag/{{ app()->getLocale() }}.png" width="22">
+	</a>
+	<ul class="dropdown-menu dropdown-menu-right language-dropdown-menu" role="menu">
+		<li><a href="#" data-locale=""><img src="/assets/flag/en.png" width="17"> English</a></li>
+		<li><a href="#" data-locale="zh"><img src="/assets/flag/zh.png" width="17"> 中文</a></li>
+	</ul>
+</li>
