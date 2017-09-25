@@ -128,16 +128,26 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function replaceLinksForResponse($request, $response)
     {
+        $rootUrl = $request->root();
+
         // Replace path in a.href to `url(path)` for path links
         $content = preg_replace_callback(
             '#(<a[^>]+href=["\'])([^"\']+)#i',
-            function ($matches) {
+            function ($matches) use ($rootUrl) {
+                $ltrimed = ltrim($matches[2], '/');
+                if (preg_match(
+                    '#^(api|assets|build|storage)$#',
+                    explode('/', $ltrimed)[0]
+                )) {
+                    return $matches[1].$rootUrl.'/'.$ltrimed;
+                }
+
                 return $matches[1].url($matches[2]);
             },
             $response->getContent()
         );
 
-        // Replace https?://laravel.com/docs to `url('docs')` for docs routes
+        // Replace route URLs
         $content = preg_replace_callback(
             '#https?://laravel.com/(docs)#i',
             function ($matches) {
@@ -149,7 +159,7 @@ class AppServiceProvider extends ServiceProvider
         // Replace https?://laravel.com/ to `$rootURL/` for public assets and api links
         $content = preg_replace(
             '#https?://laravel.com/#i',
-            $request->root().'/',
+            $rootUrl.'/',
             $content
         );
 
