@@ -87,13 +87,23 @@ class AppServiceProvider extends ServiceProvider
                 $locale = $locale->locale;
             }
 
-            $rootUrl = $this->app['request']->root();
-            if ($locale != $this->defaultLocale) {
-                $rootUrl .= '/'.$locale;
-            }
-
-            $this->app['url']->forceRootUrl($rootUrl);
+            $this->setRootUrlForLocale($locale);
         });
+    }
+
+    /**
+     * Set root URL to UrlGenerator for the given locale.
+     *
+     * @param  string  $locale
+     */
+    protected function setRootUrlForLocale($locale)
+    {
+        $rootUrl = $this->app['request']->root();
+        if ($locale != $this->defaultLocale) {
+            $rootUrl .= '/'.$locale;
+        }
+
+        $this->app['url']->forceRootUrl($rootUrl);
     }
 
     /**
