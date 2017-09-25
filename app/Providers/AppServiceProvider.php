@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Events\LocaleUpdated;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -83,11 +84,23 @@ class AppServiceProvider extends ServiceProvider
             LocaleUpdated::class : 'locale.changed';
 
         Event::listen($localeUpdated, function ($locale) {
-            if (is_object($locale)) {
+            if ($locale instanceof LocaleUpdated) {
                 $locale = $locale->locale;
             }
 
             $this->setRootUrlForLocale($locale);
+        });
+
+        $requestHandled = class_exists(RequestHandled::class) ?
+            RequestHandled::class : 'kernel.handled';
+
+        Event::listen($requestHandled, function ($request, $response = null) {
+            if ($request instanceof RequestHandled) {
+                $response = $request->response;
+                $request = $request->request;
+            }
+
+            $this->replaceLinksForResponse($request, $response);
         });
     }
 
@@ -104,6 +117,43 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->app['url']->forceRootUrl($rootUrl);
+    }
+
+    /**
+     * Replace links for response content.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
+     * @return \Illuminate\Http\Response
+     */
+    protected function replaceLinksForResponse($request, $response)
+    {
+        // Replace path in a.href to `url(path)` for path links
+        $content = preg_replace_callback(
+            '#(<a[^>]+href=["\'])([^"\']+)#i',
+            function ($matches) {
+                return $matches[1].url($matches[2]);
+            },
+            $response->getContent()
+        );
+
+        // Replace https?://laravel.com/docs to `url('docs')` for docs routes
+        $content = preg_replace_callback(
+            '#https?://laravel.com/(docs)#i',
+            function ($matches) {
+                return url($matches[1]);
+            },
+            $content
+        );
+
+        // Replace https?://laravel.com/ to `$rootURL/` for public assets and api links
+        $content = preg_replace(
+            '#https?://laravel.com/#i',
+            $request->root().'/',
+            $content
+        );
+
+        return $response->setContent($content);
     }
 
     /**
