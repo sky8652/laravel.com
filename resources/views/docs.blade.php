@@ -10,12 +10,12 @@
 	</div>
 
 	<ul class="slide-main-nav">
-		<li><a href="/">Home</a></li>
+		<li><a href="/">@lang('Home')</a></li>
 		@include('partials.main-nav')
 	</ul>
 
 	<div class="slide-docs-nav">
-		<h2>Documentation</h2>
+		<h2>@lang('Documentation')</h2>
 		{!! $index !!}
 	</div>
 

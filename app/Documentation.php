@@ -42,8 +42,8 @@ class Documentation
      */
     public function getIndex($version)
     {
-        return $this->cache->remember('docs.'.$version.'.index', 5, function () use ($version) {
-            $path = base_path('resources/docs/'.$version.'/documentation.md');
+        return $this->cache->remember('docs.'.app()->getLocale().'.'.$version.'.index', 5, function () use ($version) {
+            $path = doc_path($version, 'documentation.md');
 
             if ($this->files->exists($path)) {
                 return $this->replaceLinks($version, markdown($this->files->get($path)));
@@ -62,8 +62,8 @@ class Documentation
      */
     public function get($version, $page)
     {
-        return $this->cache->remember('docs.'.$version.'.'.$page, 5, function () use ($version, $page) {
-            $path = base_path('resources/docs/'.$version.'/'.$page.'.md');
+        return $this->cache->remember('docs.'.app()->getLocale().'.'.$version.'.'.$page, 5, function () use ($version, $page) {
+            $path = doc_path($version, $page.'.md');
 
             if ($this->files->exists($path)) {
                 return $this->replaceLinks($version, markdown($this->files->get($path)));
@@ -95,7 +95,7 @@ class Documentation
     public function sectionExists($version, $page)
     {
         return $this->files->exists(
-            base_path('resources/docs/'.$version.'/'.$page.'.md')
+            doc_path($version, $page.'.md')
         );
     }
 
