@@ -32,7 +32,7 @@
             <input placeholder="@lang('search')" type="text" v-model="search" id="search-input" v-on:blur="reset" />
         </div>
 
-        <ul class="main-nav" v-if="! search">
+        <ul class="main-nav" v-show="! search">
             @include('partials.main-nav')
         </ul>
 
