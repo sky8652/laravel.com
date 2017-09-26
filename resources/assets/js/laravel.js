@@ -326,21 +326,28 @@ jQuery(function($) {
     }
   }
 
-  $('.language-dropdown').hover(function() {
-    $(this).find('.dropdown-menu').stop(true, true).delay(150).slideDown(200);
-  }, function() {
-    $(this).find('.dropdown-menu').stop(true, true).delay(150).slideUp(200);
-  });
-
-  $('ul.language-dropdown-menu li a').click(function(event) {
-    event.preventDefault();
-
+  function redirectToLocale(locale, force) {
     // Fix for IE
     if (! window.location.origin) {
       window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
     }
 
-    var locale = $(this).data('locale');
+    locale = locale || "";
+    if (! force && locale === window.localeInUrl) {
+      return;
+    }
+
     window.location.href = window.location.origin + (locale ? ('/' + locale) : '') + window.location.href.replace(window.rootUrl, '');
+  }
+
+  $('.language-dropdown').hover(function() {
+    $(this).find('.dropdown-menu').stop(true, true).delay(150).slideDown(150);
+  }, function() {
+    $(this).find('.dropdown-menu').stop(true, true).delay(150).slideUp(150);
+  });
+
+  $('ul.language-dropdown-menu li a').click(function(event) {
+    event.preventDefault();
+    redirectToLocale($(this).data('locale'), true);
   });
 });
