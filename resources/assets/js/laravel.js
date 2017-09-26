@@ -147,7 +147,7 @@ jQuery(function($) {
     datasets.push({
       source: function searchAlgolia(query, cb) {
       index.search(query, {
-        hitsPerPage: 5, tagFilters: [window.version]
+        hitsPerPage: 10, tagFilters: [window.version]
       }, function searchCallback(err, content) {
           if (err) {
             throw err;
