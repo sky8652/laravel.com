@@ -114,9 +114,7 @@ class Indexer
      */
     public function indexAllDocumentsForVersion($version)
     {
-        $versionPath = base_path('resources/docs/'.$version.'/');
-
-        foreach ($this->files->files($versionPath) as $path) {
+        foreach (glob(resource_path("docs/{{$version},*/{$version}}/*.md"), GLOB_BRACE) as $path) {
             if (! in_array(basename($path, '.md'), $this->noIndex)) {
                 $this->indexDocument($version, $path);
             }
