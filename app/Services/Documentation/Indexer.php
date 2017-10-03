@@ -55,6 +55,7 @@ class Indexer
         'documentation',
         'license',
         'releases',
+        'about',
     ];
 
     /**
@@ -113,9 +114,7 @@ class Indexer
      */
     public function indexAllDocumentsForVersion($version)
     {
-        $versionPath = base_path('resources/docs/'.$version.'/');
-
-        foreach ($this->files->files($versionPath) as $path) {
+        foreach (glob(resource_path("docs/{{$version},*/{$version}}/*.md"), GLOB_BRACE) as $path) {
             if (! in_array(basename($path, '.md'), $this->noIndex)) {
                 $this->indexDocument($version, $path);
             }
@@ -148,12 +147,19 @@ class Indexer
             'h5' => null,
         ];
 
-        $excludedBlocTypes = ['Code', 'Quote', 'Markup', 'FencedCode'];
+        $excludedBlocTypes = ['Code', 'Quote', 'Markup', 'FencedCode', 'Comment'];
 
         foreach ($blocs as $bloc) {
             // If the block type should be excluded, skip it...
             if (isset($bloc['hidden']) || (isset($bloc['type']) && in_array($bloc['type'], $excludedBlocTypes)) || $bloc['element']['name'] == 'ul') {
                 continue;
+            }
+
+            $element_text = $bloc['element']['text'] ?? null;
+            if (is_null($element_text)) {
+                continue;
+            } elseif ($element_text == '译者署名' || $element_text == '推荐阅读') {
+                break;
             }
 
             if (isset($bloc['type']) && $bloc['type'] == 'Table') {
