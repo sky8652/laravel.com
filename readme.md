@@ -2,7 +2,7 @@
 
 - 中国镜像：https://laravel.0x123.com
 - 中文站点：https://laravel.0x123.com/zh
-- [:ghost: 优雅姿势](#elegant-way)
+- [:ghost: 优雅姿势](#优雅姿势)
 
 ## 说明
 
@@ -17,7 +17,6 @@
 - :heart: 中文文档转载自 [Laravel China](https://laravel-china.org) 社区：https://d.laravel-china.org
 - :+1: 本镜像构建脚本：[build-laravel.com](https://github.com/ElfSundae/build-laravel.com)
 
-<a name="elegant-way">
 ## 优雅姿势
 
 你也可以使用官网域名 **`laravel.com`** 访问本镜像。这样的话，你无需记忆或收藏本镜像网址，点击任何 Laravel 文档链接时会直接访问本加速镜像，引用或分享官方文档链接时直接复制地址栏不用修改域名。
