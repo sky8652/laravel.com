@@ -36,11 +36,11 @@
 
 - **macOS:** 在「钥匙串访问」(Keychain Access) 中双击 `laravel.com` 这一行，展开「信任」栏，选择「始终信任」，然后关闭窗口即可。
 
-    ![](https://ws1.sinaimg.cn/large/8052b860gy1flkdv46w5aj20dm071ab9.jpg)
+    ![](https://img.0x321.com/images/laravel-com-mirror/install-cert-macos.png)
 
 - **Windows:** 在安装证书时选择「受信任的根证书颁发机构」存储。
 
-    ![](https://ws1.sinaimg.cn/large/8052b860gy1flke2h2o8xj20jm0fz438.jpg)
+    ![](https://img.0x321.com/images/laravel-com-mirror/install-cert-windows.png)
 
 #### 3. 测试
 
