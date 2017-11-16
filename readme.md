@@ -18,7 +18,7 @@
 - :+1: 本镜像构建脚本：[build-laravel.com](https://github.com/ElfSundae/build-laravel.com)
 
 <a name="elegant-way">
-## 优雅姿势 :ghost:
+## 优雅姿势
 
 你也可以使用官网域名 **`laravel.com`** 访问本镜像。这样的话，你无需记忆或收藏本镜像网址，点击任何 Laravel 文档链接时会直接访问本加速镜像，引用或分享官方文档链接时直接复制地址栏不用修改域名。
 
