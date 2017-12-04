@@ -1,7 +1,7 @@
 # Laravel.com 中国镜像
 
-- 中国镜像：https://laravel.0x123.com
-- 中文站点：https://laravel.0x123.com/zh
+- 官网中国镜像：https://laravel.0x123.com
+- 非官方中文站：https://laravel.0x123.com/zh
 - [:ghost: 优雅姿势](#优雅姿势)
 
 ## 说明
