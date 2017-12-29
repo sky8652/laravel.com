@@ -44,6 +44,13 @@
   overflow: hidden;
 }
 
+// avatar in the CN doc
+.avatar-66 {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
 .carbon-img {
   display: block;
   margin: 0 auto 1em;
@@ -57,10 +64,4 @@
 .carbon-poweredby {
   display: block;
   font-size: 11px;
-}
-
-.avatar-66 {
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
 }
