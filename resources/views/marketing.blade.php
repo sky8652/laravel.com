@@ -192,7 +192,7 @@ Route::get('/user/{user}', function(App\User $user)
     		<a href="https://forge.laravel.com" class="callout full forge">
     			<div class="content">
 					{!! svg('forge') !!}
-    				<p>@lang('Instant PHP Platforms On Linode, DigitalOcean, and more. Push to deploy, PHP 7.1, HHVM, queues, and everything you need to launch and deploy amazing Laravel applications.')</p>
+    				<p>@lang('Instant PHP Platforms On Linode, DigitalOcean, and more. Push to deploy, PHP 7.2, HHVM, queues, and everything you need to launch and deploy amazing Laravel applications.')</p>
     				<p>@lang('Launch your application in minutes!')</p>
     			</div>
                 <img src="https://forge.laravel.com/images/ui-preview.png" alt="Forge UI Preview" height="350" />
