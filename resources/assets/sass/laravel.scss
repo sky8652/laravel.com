@@ -28,6 +28,8 @@
 @import "content/docs";
 @import "content/404";
 
+@import "patch";
+
 #carbonads {
   display: block;
   overflow: hidden;
@@ -42,13 +44,6 @@
 #carbonads span {
   display: block;
   overflow: hidden;
-}
-
-// avatar in the CN doc
-.avatar-66 {
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
 }
 
 .carbon-img {

@@ -1,0 +1,49 @@
+// Avatar image in the Chinese doc
+// https://github.com/laravel-china/laravel-docs
+.avatar-66 {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+}
+
+// Adjust font size for fallback "Source Sans Pro"
+.sidebar {
+    > ul {
+        > li {
+            font-size: 14px;
+            > ul {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.slide-menu {
+    .slide-docs-nav > ul {
+        > li {
+            > ul {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.docs article {
+    ul {
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 15px;
+        line-height: 1.70;
+    }
+
+    h1 + ul {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    li > ul {
+        font-size: 14px;
+    }
+}
