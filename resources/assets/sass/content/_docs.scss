@@ -3,7 +3,7 @@
 	margin-left: 300px;
 
 	ul {
-		font-size: 14px;
+		font-size: 13px;
 	}
 
 	.content-list ul li {
@@ -12,17 +12,17 @@
 	}
 
 	p {
-		font-size: 14.5px;
-		line-height: 1.70;
+		font-size: 13px;
+		line-height: 1.9;
 	}
 
 	h1 + ul {
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		font-size: 16px;
+		font-size: 14px;
 		font-weight: bold;
-		line-height: 1.5;
+		line-height: 1.8;
 		padding-bottom: 50px;
 		border-bottom: 1px solid $color__faint;
 		-webkit-font-smoothing: antialiased;
@@ -40,9 +40,10 @@
 	}
 
 	li > ul {
-		font-size: 15px;
+		font-size: 13px;
 		font-weight: 400;
 		list-style: none;
+		line-height: 1.7;
 	}
 
 	h2:first-of-type {
@@ -79,7 +80,7 @@
 	}
 
 	h4 {
-		font-size: 16px;
+		font-size: 17px;
 		font-weight: 700;
 		margin-top: 35px;
 		margin-bottom: 10px;
