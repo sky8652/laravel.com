@@ -280,7 +280,7 @@ jQuery(function($) {
   }
 
   if ($('.sidebar ul').length) {
-    var current = $('.sidebar ul').find('li a[href="' + window.location.pathname + '"]');
+    var current = $('.sidebar ul').find('li a[href="' + window.location.href + '"]');
 
     if (current.length) {
       current.parent().css('font-weight', 'bold');
