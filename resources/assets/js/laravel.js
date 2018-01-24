@@ -349,7 +349,7 @@ jQuery(function($) {
     $(this).find('.dropdown-menu').stop(true, true).delay(150).slideUp(150);
   });
 
-  $('ul.language-dropdown-menu li a').click(function(event) {
+  $('.language-dropdown .dropdown-menu li a').click(function(event) {
     event.preventDefault();
     redirectToLocale($(this).data('locale'), true);
   });
