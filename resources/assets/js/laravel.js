@@ -12,6 +12,11 @@ const Hogan = require('./vendor/hogan.js');
 const Mousetrap = require('./vendor/mousetrap.js');
 const algoliasearch = require('./vendor/algoliasearch.js');
 
+// Fix for IE
+if (! window.location.origin) {
+  window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+}
+
 new Vue({
   el: 'nav.main',
   data: {
@@ -280,7 +285,7 @@ jQuery(function($) {
   }
 
   if ($('.sidebar ul').length) {
-    var current = $('.sidebar ul').find('li a[href="' + window.location.href + '"]');
+    var current = $('.sidebar ul').find('li a[href="' + window.location.origin + window.location.pathname + '"]');
 
     if (current.length) {
       current.parent().css('font-weight', 'bold');
@@ -330,11 +335,6 @@ jQuery(function($) {
   }
 
   function redirectToLocale(locale, force) {
-    // Fix for IE
-    if (! window.location.origin) {
-      window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
-    }
-
     locale = locale || "";
     if (! force && locale === window.localeInUrl) {
       return;
