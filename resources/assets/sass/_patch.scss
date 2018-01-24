@@ -6,6 +6,17 @@
     border-radius: 6px;
 }
 
+// Language dropdown
+.language-dropdown {
+    .dropdown-toggle img {
+        width: 22px;
+    }
+
+    .dropdown-menu img {
+        width: 17px;
+    }
+}
+
 // Adjust font size for fallback "Source Sans Pro"
 .sidebar {
     > ul {
