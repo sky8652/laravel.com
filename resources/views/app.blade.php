@@ -54,6 +54,7 @@
     <footer class="main">
         <ul>
             @include('partials.main-nav')
+            <li class="nav-github"><a href="https://github.com/ElfSundae/laravel.com#readme" target="_blank"><img src="/assets/svg/icon-github.svg"></a></li>
         </ul>
         <p>Laravel is a trademark of Taylor Otwell. Copyright &copy; Taylor Otwell.</p>
         <p class="less-significant">
