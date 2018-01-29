@@ -14,6 +14,10 @@
 
 		<li class="divider"></li>
 
+		<li><a href="https://github.com/ElfSundae/laravel.com" target="_blank">@lang('About Mirror')</a></li>
+
+		<li class="divider"></li>
+
 		<li><a href="https://laracon.com.au">Laracon AU</a></li>
 		<li><a href="https://laracon.eu">Laracon EU</a></li>
 		<li><a href="http://laracon.us">Laracon US</a></li>
